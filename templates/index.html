@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Fruit Classifier</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Genre Prediction</title>
+</head>
+
+<body>
+
+    <div class="container my-4">
+
+         <h2 class="my-4 text-center">Fruit Class Prediction</h2>
+
+    
+
+        <div class="alert alert-success my-4" role="alert">
+
+            <div class="container">
+                <div class="content">
+
+                    <h1>About Dataset</h1>
+
+                    <p>
+                        This image dataset showcases 9 popular fruits including mango, banana, cherry, strawberry, chickoo, grapes, kiwi, orange, and apple. Each fruit is represented by a collection of high-quality images that highlight their unique color, texture, and shape. These images can be used for a variety of applications such as computer vision, machine learning, and marketing. With this dataset, researchers and fruit enthusiasts can explore the visual characteristics of these fruits and gain insights into their cultural and culinary significance.
+                    </p>
+                    <p>
+
+                    </p>
+
+                    <a href="https://www.kaggle.com/datasets/shreyapmaher/fruits-dataset-images">Fruits Dataset (Images)</a> [210M]
+                    <p>
+
+                    </p>
+                    <hr>
+
+                    <h3> Example </h3>
+
+                    Upload Image and Check the class of the Fruit.
+                    <p>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Form -->
+
+        <div></div>
+
+        <h2 class="my-4 text-center">Fruit Class Prediction</h2>
+        
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="file-input" name="file" accept="image/*">
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+        <div id="image-container">
+            <img id="uploaded-image" src="" alt="Uploaded Image" style="display:none; max-width: 300px; max-height: 300px;">
+        </div>
+        <h3><div id="result"></div> </h3>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('file-input').addEventListener('change', function () {
+            const fileInput = document.getElementById('file-input');
+            const uploadedImage = document.getElementById('uploaded-image');
+            
+            // Display uploaded image
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                uploadedImage.src = event.target.result;
+                uploadedImage.style.display = 'block';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        });
+
+        document.getElementById('upload-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('file-input');
+            
+            // Send image to the server for prediction
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            const response = await fetch('/', { method: 'POST', body: formData });
+            const data = await response.json();
+            document.getElementById('result').innerText ='Predicted Fruit: ' + data.class_label;
+        });
+    </script>
+</body>
+
+</html>
